@@ -26,7 +26,6 @@ module.exports = function (app) {
   });
 
   app.put('/pagamentos/pagamento/:id', function (req, res) {
-
     var pagamento = {};
     var id = req.params.id;
 
@@ -48,6 +47,8 @@ module.exports = function (app) {
   });
 
   app.post('/pagamentos/pagamento', function (req, res) {
+    var body = req.body;
+    var pagamento = req.body["pagamento"];
 
     req.assert("pagamento.forma_de_pagamento", "Forma de pagamento eh obrigatorio").notEmpty();
     req.assert("pagamento.valor", "Valor eh obrigatorio e deve ser um decimal").notEmpty().isFloat();
@@ -60,7 +61,6 @@ module.exports = function (app) {
       return;
     }
 
-    var pagamento = req.body["pagamento"];
     console.log('processando uma requisicao de um novo pagamento');
 
     pagamento.status = 'CRIADO';
@@ -77,27 +77,36 @@ module.exports = function (app) {
         pagamento.id = resultado.insertId;
         console.log('pagamento criado');
 
+        if (pagamento.forma_de_pagamento == 'cartao') {
+          var cartao = req.body['cartao'];
+          console.log(cartao);
 
-        res.location('/pagamentos/pagamento/' + pagamento.id);
+          var clienteCartos = new app.servicos.clienteCartoes();
 
-        var response = {
-          dados_do_pagamento: pagamento,
-          links: [
-            {
-              href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
-              rel: "confirmar",
-              method: "PUT"
-            },
-            {
-              href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
-              rel: "cancelar",
-              method: "DELETE"
-            }
-          ]
+          res.status(201).json(cartao);
+          return;
+
+        } else {
+          res.location('/pagamentos/pagamento/' + pagamento.id);
+
+          var response = {
+            dados_do_pagamento: pagamento,
+            links: [
+              {
+                href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+                rel: "confirmar",
+                method: "PUT"
+              },
+              {
+                href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+                rel: "cancelar",
+                method: "DELETE"
+              }
+            ]
+          }
+          res.status(201).json(response);
         }
-        res.status(201).json(response);
       }
     });
-
   });
 }

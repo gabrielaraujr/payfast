@@ -1,0 +1,28 @@
+{
+  "name": "payfast",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielaraujr/payfast.git"
+  },
+  "author": "Gabriel Araujo <matadoxx@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielaraujr/payfast/issues"
+  },
+  "homepage": "https://github.com/gabrielaraujr/payfast#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "consign": "^0.1.6",
+    "express": "^4.17.1",
+    "express-validator": "^2.20.8",
+    "mysql": "^2.18.1",
+    "restify": "^8.5.1"
+  }
+}
