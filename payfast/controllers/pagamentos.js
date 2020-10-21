@@ -1,5 +1,4 @@
 module.exports = function (app) {
-
   app.get('/pagamentos', function (req, res) {
     console.log('Recebida requisicao de teste na porta 3000.')
     res.send('OK.');
@@ -25,6 +24,7 @@ module.exports = function (app) {
     });
   });
 
+
   app.put('/pagamentos/pagamento/:id', function (req, res) {
     var pagamento = {};
     var id = req.params.id;
@@ -43,12 +43,9 @@ module.exports = function (app) {
       console.log('pagamento criado');
       res.send(pagamento);
     });
-
   });
 
   app.post('/pagamentos/pagamento', function (req, res) {
-    var body = req.body;
-    var pagamento = req.body["pagamento"];
 
     req.assert("pagamento.forma_de_pagamento", "Forma de pagamento eh obrigatorio").notEmpty();
     req.assert("pagamento.valor", "Valor eh obrigatorio e deve ser um decimal").notEmpty().isFloat();
@@ -61,6 +58,7 @@ module.exports = function (app) {
       return;
     }
 
+    var pagamento = req.body["pagamento"];
     console.log('processando uma requisicao de um novo pagamento');
 
     pagamento.status = 'CRIADO';
@@ -81,29 +79,63 @@ module.exports = function (app) {
           var cartao = req.body['cartao'];
           console.log(cartao);
 
-          var clienteCartos = new app.servicos.clienteCartoes();
+          var clienteCartoes = new app.servicos.clienteCartoes();
 
-          res.status(201).json(cartao);
-          return;
+          clienteCartoes.autoriza(cartao,
+            function (exception, request, response, retorno) {
+              if (exception) {
+                console.log(exception);
+                res.status(400).send(exception);
+                return;
+              }
+              console.log(retorno);
+
+              res.location('/pagamentos/pagamento/' + pagamento.id);
+
+              var response = {
+                dados_do_pagamanto: pagamento,
+                cartao: retorno,
+                links: [
+                  {
+                    href: "http://localhost:3000/pagamentos/pagamento/"
+                      + pagamento.id,
+                    rel: "confirmar",
+                    method: "PUT"
+                  },
+                  {
+                    href: "http://localhost:3000/pagamentos/pagamento/"
+                      + pagamento.id,
+                    rel: "cancelar",
+                    method: "DELETE"
+                  }
+                ]
+              }
+
+              res.status(201).json(response);
+              return;
+            });
 
         } else {
           res.location('/pagamentos/pagamento/' + pagamento.id);
 
           var response = {
-            dados_do_pagamento: pagamento,
+            dados_do_pagamanto: pagamento,
             links: [
               {
-                href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+                href: "http://localhost:3000/pagamentos/pagamento/"
+                  + pagamento.id,
                 rel: "confirmar",
                 method: "PUT"
               },
               {
-                href: "http://localhost:3000/pagamentos/pagamento/" + pagamento.id,
+                href: "http://localhost:3000/pagamentos/pagamento/"
+                  + pagamento.id,
                 rel: "cancelar",
                 method: "DELETE"
               }
             ]
           }
+
           res.status(201).json(response);
         }
       }

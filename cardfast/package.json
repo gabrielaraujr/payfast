@@ -1,19 +1,26 @@
 {
   "name": "cardfast",
   "version": "1.0.0",
-  "description": "",
+  "description": "- Client (Rest API)",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielaraujr/payfast.git"
+  },
+  "author": "Gabriel Araujo <matadoxx@gmail.com>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabrielaraujr/payfast/issues"
+  },
+  "homepage": "https://github.com/gabrielaraujr/payfast#readme",
   "dependencies": {
     "body-parser": "^1.15.2",
     "consign": "^0.1.2",
     "express": "^4.14.0",
-    "express-validator": "^2.20.8",
-    "restify": "^8.5.1"
+    "express-validator": "^2.20.8"
   }
 }
