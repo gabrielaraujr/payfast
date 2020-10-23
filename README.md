@@ -1,6 +1,6 @@
 # Payfast
 
-Implementing a payment logic in nodejs + express
+Implementing a payment logic in nodejs + express and mysql
 
 ---
 
@@ -53,7 +53,27 @@ After installing node, this project will need yarn too, so just run the followin
     $ cd casadocodigo
     $ yarn install
 
-## Running the project
+### Running the projects
+
+*Payfast*: Webservice and *Cardfast*: Client (Rest API). It's necessary to start both projects with this command line.
 
     $ npm start
     $ yarn start
+    
+## Memcached (Optional)
+
+    - ### Installing on Windows
+    Complete guide: https://commaster.net/posts/installing-memcached-windows/
+
+    - Running
+    Recommended placing the memcached folder in the environment variables to run it inside the project folder, after run command line.
+  
+     $ memcached -vv
+  
+    - ### Installing on Mac
+    
+    $ brew install memcached
+    
+    - ### Installing on Ubuntu
+    
+    $ sudo apt-get install memcached
