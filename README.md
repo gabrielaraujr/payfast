@@ -62,18 +62,17 @@ After installing node, this project will need yarn too, so just run the followin
     
 ## Memcached (Optional)
 
-    - ### Installing on Windows
-    Complete guide: https://commaster.net/posts/installing-memcached-windows/
-
-    - Running
-    Recommended placing the memcached folder in the environment variables to run it inside the project folder, after run command line.
+- #### Installing on Windows
+  Complete guide: https://commaster.net/posts/installing-memcached-windows/
   
-     $ memcached -vv
+  Recommended placing the memcached folder in the environment variables to run it inside the project folder, after run command line.
   
-    - ### Installing on Mac
+      $ memcached -vv
+  
+- #### Installing on Mac
     
-    $ brew install memcached
+      $ brew install memcached
     
-    - ### Installing on Ubuntu
+- #### Installing on Ubuntu
     
-    $ sudo apt-get install memcached
+      $ sudo apt-get install memcached
